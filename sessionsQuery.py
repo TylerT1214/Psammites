@@ -1,9 +1,10 @@
-def sessionsQuery(**options):
+def sessionsQuery(request_type="unique", **options):
   """
   A function that returns the string formatted API query for Arkime v3.x.
   
   PARAMETERS
   ----------
+  request_type, sets API request type (sessions, unique, fields)
   date_range, numerical expression of hours, -1 is the default for all time
   expresssion, a string search expression
   facets, numerical flag to include data for maps and timeline graphs
@@ -34,19 +35,21 @@ def sessionsQuery(**options):
   fields = options.get("fields", None)
   bounding = options.get("bounding", None) #Default of last.  Can be first/last/both.
   strictly = options.get("strictly", None) #Default of false
-
-
+  
+  "unique.txt specific values"
+  counts = options.get("counts", 0)
+  exp = options.get("exp", "ip.dst")
+  
   api_call = ""
 
-  if startTime and stopTime:
-    if (startTime) < (stopTime):
-      api_call += "startTime={}&stopTime={}&".format(startTime, stopTime)
-    else:
-      return(1, "stopTime value must be greater than startTime value.")
+  if request_type == "sessions":
+    api_call += "sessions.json?"
+  elif request_type == "fields":
+    return("fields?") 
   else:
-    api_call += "date={}&".format(int(date_range))
+    api_call += "unique.txt?"
+    api_call += 'exp={}&counts={}&'.format(exp, counts)
 
-  
   if view:
     api_call += "view={}&".format(view)
   if expression:
@@ -65,5 +68,16 @@ def sessionsQuery(**options):
     api_call += "bounding={}&".format(bounding)
   if strictly:
     api_call += "strictly={}&".format(strictly)
+  
+  if startTime and stopTime:
+    if (startTime) < (stopTime):
+      api_call += "startTime={}&stopTime={}&".format(startTime, stopTime)
+    else:
+      return(1, "stopTime value must be greater than startTime value.")
+  else:
+    api_call += "date={}&".format(int(date_range))
+
+  while api_call[-1] == "&":
+    api_call = api_call[:-1]
 
   return(api_call)
