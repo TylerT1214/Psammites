@@ -25,12 +25,16 @@ class APICall(object):
     
 
   def query(self, txt):
-    request = ("curl -XGET --anyauth -u {}:{} {}/".format(self.username, \
+    request = ("curl -XGET --anyauth -u {}:{} {}/api/".format(self.username, \
                self.password, self.server_address))
     cmd = str(request + txt)
     data = Popen(cmd.split(), stdout=PIPE)
-    response = data.communicate()
-    return(response)
+    response, error = data.communicate()
+    try:
+      response = json.loads(response)
+      return(response)
+    except:
+      return(response)
   
 
     
