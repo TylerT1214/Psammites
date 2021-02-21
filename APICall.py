@@ -28,6 +28,7 @@ class APICall(object):
     request = ("curl -XGET --anyauth -u {}:{} {}/api/".format(self.username, \
                self.password, self.server_address))
     cmd = str(request + txt)
+    print("Requesting for {}\n\n".format(cmd))
     data = Popen(cmd.split(), stdout=PIPE)
     response, error = data.communicate()
     try:

@@ -43,7 +43,7 @@ def sessionsQuery(request_type="unique", **options):
   api_call = ""
 
   if request_type == "sessions":
-    api_call += "sessions.json?"
+    api_call += "sessions?"
   elif request_type == "fields":
     return("fields?") 
   else:
@@ -71,7 +71,7 @@ def sessionsQuery(request_type="unique", **options):
   
   if startTime and stopTime:
     if (startTime) < (stopTime):
-      api_call += "startTime={}&stopTime={}&".format(startTime, stopTime)
+      api_call += "stopTime={}&startTime={}&".format(stopTime, startTime)
     else:
       return(1, "stopTime value must be greater than startTime value.")
   else:
