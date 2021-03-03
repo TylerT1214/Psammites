@@ -7,6 +7,8 @@ authors = ["repl.it user <replituser@example.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 fields = "^5.0.0"
+bs4 = "^0.0.1"
+plotly = "^4.14.3"
 
 [tool.poetry.dev-dependencies]
 
