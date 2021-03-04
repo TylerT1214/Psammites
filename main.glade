@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <object class="GtkWindow" id="window">
+    <property name="can-focus">False</property>
+    <property name="title" translatable="yes">Psammites Application</property>
+    <child>
+      <object class="GtkFixed" id="windowContainer">
+        <property name="width-request">800</property>
+        <property name="height-request">600</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <child>
+          <object class="GtkFixed" id="topFrame">
+            <property name="width-request">800</property>
+            <property name="height-request">200</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkLabel" id="titleBanner">
+                <property name="width-request">800</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">PSAMMITES</property>
+                <attributes>
+                  <attribute name="font-desc" value="Sans Bold Italic 20"/>
+                </attributes>
+              </object>
+            </child>
+            <child>
+              <object class="GtkEntry" id="usernameEntryBox">
+                <property name="width-request">200</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="placeholder-text" translatable="yes">username</property>
+              </object>
+              <packing>
+                <property name="x">20</property>
+                <property name="y">40</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="passwordEntryBox">
+                <property name="width-request">200</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="visibility">False</property>
+                <property name="invisible-char">●</property>
+                <property name="placeholder-text" translatable="yes">password</property>
+              </object>
+              <packing>
+                <property name="x">20</property>
+                <property name="y">80</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="serverEntryBox">
+                <property name="width-request">400</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="placeholder-text" translatable="yes">server</property>
+              </object>
+              <packing>
+                <property name="x">280</property>
+                <property name="y">40</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="startDateEntryBox">
+                <property name="width-request">100</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="max-length">10</property>
+                <property name="secondary-icon-tooltip-text" translatable="yes">MM/DD/YYYY</property>
+                <property name="placeholder-text" translatable="yes">MM/DD/YYYY</property>
+                <property name="input-purpose">digits</property>
+              </object>
+              <packing>
+                <property name="x">280</property>
+                <property name="y">80</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="endDateEntryBox">
+                <property name="width-request">100</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="max-length">10</property>
+                <property name="placeholder-text" translatable="yes">MM/DD/YYYY</property>
+                <property name="input-purpose">digits</property>
+              </object>
+              <packing>
+                <property name="x">450</property>
+                <property name="y">80</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="endDateLabe">
+                <property name="width-request">100</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Start Date</property>
+                <attributes>
+                  <attribute name="font-desc" value="Serif Bold 15"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="x">285</property>
+                <property name="y">125</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="endDateLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">End Date</property>
+                <attributes>
+                  <attribute name="font-desc" value="Serif Bold 15"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="x">455</property>
+                <property name="y">125</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="checkBoxAllDates">
+                <property name="width-request">130</property>
+                <property name="height-request">40</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Select All
+Availabe Dates</property>
+                <attributes>
+                  <attribute name="font-desc" value="Serif Bold 12"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="x">656</property>
+                <property name="y">80</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="searchButton">
+                <property name="label" translatable="yes">Search</property>
+                <property name="width-request">80</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Click to search with provided information</property>
+                <signal name="clicked" handler="onSearchButtonClicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="x">707</property>
+                <property name="y">40</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBoxText" id="fieldSelector">
+                <property name="width-request">200</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="active">0</property>
+                <property name="active-id">1</property>
+                <items>
+                  <item id="1" translatable="yes">All Fields</item>
+                  <item id="2" translatable="yes">PPS</item>
+                  <item id="3" translatable="yes">K-clustering</item>
+                  <item id="4" translatable="yes">Statistics</item>
+                </items>
+              </object>
+              <packing>
+                <property name="x">20</property>
+                <property name="y">150</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="fieldSelectorLabel">
+                <property name="width-request">100</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Select Fields</property>
+                <attributes>
+                  <attribute name="font-desc" value="Serif Bold 15"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="x">20</property>
+                <property name="y">120</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="selectAllDatesCheckBox">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="use-stock">True</property>
+                <property name="draw-indicator">True</property>
+              </object>
+              <packing>
+                <property name="x">630</property>
+                <property name="y">89</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkFixed" id="bottomFrame">
+            <property name="width-request">800</property>
+            <property name="height-request">395</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkBox" id="returnDataBox">
+                <property name="width-request">790</property>
+                <property name="height-request">360</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="border-width">5</property>
+                <property name="spacing">5</property>
+                <child>
+                  <object class="GtkImage" id="returnImage">
+                    <property name="width-request">500</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="returnDataTextBox">
+                    <property name="width-request">280</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="placeholder-text" translatable="yes">Server Return Data Displayed Here</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="x">5</property>
+                <property name="y">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="exportButton">
+                <property name="label" translatable="yes">Export Results</property>
+                <property name="width-request">79</property>
+                <property name="height-request">27</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Click to search with provided information</property>
+                <property name="border-width">2</property>
+              </object>
+              <packing>
+                <property name="x">316</property>
+                <property name="y">371</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="y">205</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

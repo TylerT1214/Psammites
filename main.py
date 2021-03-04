@@ -1,42 +1,82 @@
-import json
-import sys
-sys.path.append('./')
-from time import ctime
-from APICall import APICall
-from sessionsQuery import sessionsQuery
+import gi
+
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk as gtk
 
 
-def test_fields():
-  '''-- TEST Fields -- '''
-  print("Started Fields test at {}".format(ctime()))
-  testUnit = APICall('https://demo.arkime.com', 'arkime', 'arkime')
-  test1 = sessionsQuery("fields")
-  data = testUnit.query(test1)
-  print(type(data))
-  input()
-  print(data)
-  input()
-  print("Total fields: ", len(data.keys()), "\n")
-  for key in data.keys():
-    print(key, data[key])
-    input()  
+class Main:
+	def __init__(self):
+		gladeFile = "main.glade"
+		self.builder = gtk.Builder()
+		self.builder.add_from_file(gladeFile)
+		self.builder.connect_signals(self)
+
+		#Connect window
+		window = self.builder.get_object("window")
+		window.connect("delete-event", gtk.main_quit)
+		window.show()
+
+		
 
 
-def test_sessions():
-  '''-- TEST Sessions -- '''
-  print("Started Sessions test at {}".format(ctime()))
-  testUnit = APICall('https://demo.arkime.com', 'arkime', 'arkime')
-  test2 = sessionsQuery("sessions", \
-  expression="ip.src%20%3D%3D%2091.198.120.253", \
-  stopTime=1637437258, \
-  startTime=892446679)
-  print(test2)
-  input()
-  print(testUnit.query(test2))
+	
+	#Method called when search button is clicked in GUI
+	def onSearchButtonClicked(self, widget):
+			
+			serachData = "";
+			#get Text From Username Textbox
+			userInputBox = self.builder.get_object("usernameEntryBox")
+			#check if datafield is empty
+			if(len(userInputBox.get_text())< 1):
+				print("User Data Not Prestent")
+			userText = userInputBox.get_text()
+			serachData = "Username: " + userText + '\n'
+
+			#get Text from Password Text Box
+			passInputBox = self.builder.get_object("passwordEntryBox")
+			#check if datafield is empty
+			if(len(passInputBox.get_text())< 1):
+				print("Password Data Not Prestent")				
+			passText = passInputBox.get_text()
+			serachData += "Password: " + passText + '\n'
+
+			#get Text from Server TextBox
+			serverInputBox = self.builder.get_object("serverEntryBox")
+			#check if datafield is empty
+			if(len(serverInputBox.get_text())< 1):
+				print("Server data Not Prestent")
+			serverText = serverInputBox.get_text()
+			serachData += "Server: " + serverText + '\n'
+
+			#Get Text from dates textbox with '/' removed
+			startDateInputBox = self.builder.get_object("startDateEntryBox")
+			#check if datafield is empty
+			if(len(startDateInputBox.get_text())< 1):
+				print("Start Date no Present")
+			startDateText = startDateInputBox.get_text().replace("/","")
+			serachData += "StartDate: " + startDateText + '\n'
+
+			endDateInputBox = self.builder.get_object("endDateEntryBox")
+			#check if datafield is empty
+			if(len(endDateInputBox.get_text())< 1):
+				print("End Date no Present")
+			endDateText = endDateInputBox.get_text().replace("/","")
+			serachData += "EndDate: " + endDateText + '\n'
+
+			#pass that all dates available was selected. Grey out Start and end Dates
+
+			#get type of field requested
+			fieldSelectorBox = self.builder.get_object("fieldSelector")
+			
+			fieldText = fieldSelectorBox.get_active_text()
+			serachData += "Fields Requested: " + fieldText
 
 
-if __name__ == "__main__":
-  #test_fields()
-  #input()
-  test_sessions()
-  
+			#print
+			print (serachData)
+
+
+
+if __name__ == '__main__':
+	main = Main()
+	gtk.main()
