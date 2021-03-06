@@ -3,29 +3,32 @@ Tyler Teegardin
 CMSC 495
 2/28/2021
 '''
-#install psutil, & pip install -U kaleido
-import json
+#pip install psutil, & pip install -U kaleido
 import plotly.graph_objects as go
 import sys
 sys.path.append('./')
-from time import ctime
 import datetime
 from APICall import APICall
 from sessionsQuery import sessionsQuery
 
 #PPS function to retrieve services info.
-def pps(ip, direction, stop, start):
-  print("Retrieving...")
+def pps(ip, direction, stop, start, conn):
   #Establishing connection and query syntax.
-  conn = APICall('https://demo.arkime.com', 'arkime', 'arkime')
-  syntax = sessionsQuery("unique", \
-  exp = "port.dst", \
-  counts = 1, \
-  expression="ip.src%3D%3D" + ip, \
-  stopTime=stop, \
-  startTime=start)
+  #conn = APICall('https://demo.arkime.com', 'arkime', 'arkime')
+  if stop == None or start == None:
+    syntax = sessionsQuery("unique", \
+    exp = "port.dst", \
+    counts = 1, \
+    expression="ip.src%3D%3D" + ip, \
+    date_range = -1)
+  else:
+    syntax = sessionsQuery("unique", \
+    exp = "port.dst", \
+    counts = 1, \
+    expression="ip.src%3D%3D" + ip, \
+    stopTime=stop, \
+    startTime=start)
   query = conn.query(syntax)
-  print("\n\n")
   #Decoding received binary data to string format.
   qdec = query.decode("utf-8")
   qdecsplit = qdec.split("\n")
@@ -53,10 +56,10 @@ def pps(ip, direction, stop, start):
       portName = 'Port ' + port[0]
     ppsSubDict[portName] = port
     f.close()
-  print(ppsDict)
+  return ppsDict
 
 #Statistics function to build candlestick graph and display statistical info.
-def stats(ip,direction,stop,start):
+def stats(ip,direction,stop,start,conn):
   #Local variable initialization.
   srcIPList = []
   srcBytes = []
@@ -66,12 +69,15 @@ def stats(ip,direction,stop,start):
   dstPackets = []
   sessionLen = 0
   #Establishing connection.
-  print("Retrieving...")
-  conn = APICall('https://demo.arkime.com', 'arkime', 'arkime')
-  syntax = sessionsQuery("sessions", \
-  expression="ip." + direction + "%20%3D%3D%20" + ip, \
-  stopTime=stop, \
-  startTime=start)
+  if stop == None or start == None:
+    syntax = sessionsQuery("sessions", \
+    expression="ip." + direction + "%20%3D%3D%20" + ip, \
+    date_range = -1)
+  else:
+    syntax = sessionsQuery("sessions", \
+    expression="ip." + direction + "%20%3D%3D%20" + ip, \
+    stopTime=stop, \
+    startTime=start)
   query = conn.query(syntax)
   data = query.get("data")
   numSessions = len(data)
@@ -99,32 +105,7 @@ def stats(ip,direction,stop,start):
           index = dstIPList.index(dStats.get("dstIp"))
           dstBytes[index] += dStats.get("dstBytes")
           dstPackets[index] += dStats.get("dstPackets")
-      #Printing parsed data.
-      print("\nSource:")
-      for x in srcIPList:
-        index = srcIPList.index(x)
-        print(x + "\tBytes: " + str(srcBytes[index]) + "\tPackets: " + str(srcPackets[index]))
-      srcByteSum = 0
-      srcPackSum = 0
-      for x in srcBytes:
-        index = srcBytes.index(x)
-        srcByteSum += x
-        srcPackSum += srcPackets[index]
-      print("Total Source Bytes: " + str(srcByteSum) + "\t Total Source Packets: " + str(srcPackSum))
-      print("\nDestination:")
-      for x in dstIPList:
-        index = dstIPList.index(x)
-        print(x + "\tBytes: " + str(dstBytes[index]) + "\tPackets: " + str(dstPackets[index]))
-      dstByteSum = 0
-      dstPackSum = 0
-      for x in dstBytes:
-        index = dstBytes.index(x)
-        dstByteSum += x
-        dstPackSum += dstPackets[index]
-      print("Total Destination Bytes: " + str(dstByteSum) + "\t Total Destination Packets: " + str(dstPackSum))
-      totalBytes = srcByteSum + dstByteSum
-      totalPackets = srcPackSum + dstPackSum
-      print("\n\nTotal Bytes Transferred: " + str(totalBytes) + "\nTotal Packets Transferred: " + str(totalPackets) + "\nTotal Session Length: " + str(sessionLen))
+      
       #Beginning of building candlestick graph
       byt = []
       statDict = {}
@@ -190,7 +171,9 @@ def stats(ip,direction,stop,start):
                        low=lowVal, close=closeVal)])
       fig.update_layout(xaxis_rangeslider_visible=False)
       fig.update_layout(yaxis_range=[0,maxByt])
-      fig.write_image("test.png")
+      #fig.write_image("test.png") #Remove
+      #fig.show()
+      return fig
     except IndexError:
       errResponse(syntax)
 
@@ -200,6 +183,6 @@ def errResponse(syntax):
 
 #Main
 if __name__ == "__main__":
-  #stats("192.168.0.10", "src")
-  stats("170.116.176.223", "src", 1637437258, 892446679)
+  conn = APICall('https://demo.arkime.com', 'arkime', 'arkime')
+  stats("170.116.176.223", "src", None, None, conn)
   

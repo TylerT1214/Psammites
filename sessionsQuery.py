@@ -47,7 +47,7 @@ def sessionsQuery(request_type="unique", **options):
   elif request_type == "fields":
     return("fields?") 
   else:
-    api_call += "unique?" #unique.txt
+    api_call += "unique?"
     api_call += 'exp={}&counts={}&'.format(exp, counts)
 
   if view:
